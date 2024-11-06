@@ -3,41 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury Auction Platform</title>
-    <link rel="stylesheet" href="chance-visual.css">
+    <title>Auction Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="chance-visual.css"> <!-- Link to the CSS file -->
 </head>
 <body>
-    <header class="header">
-        <h1>Exclusive Auction</h1>
-        <p>Swipe through the latest luxury items and start bidding!</p>
-    </header>
-
-    <section class="feed">
-        <div class="item-card">
-            <img src="bag.jpg" alt="Dior Bag" class="item-image">
-            <div class="item-details">
-                <h2>Dior Bag</h2>
-                <p>Current Bid: <span class="current-bid">€20</span></p>
-                <p>Time Left: <span class="time-left">02:45</span></p>
-                <button class="bid-button">Place Bid</button>
+    <div class="auction-container">
+        <!-- Main Screen -->
+        <div class="main-screen" id="main-screen">
+            <!-- Central auction item -->
+            <div class="brand-item" id="brand-item">
+                <img id="item-image" src="https://s1.hostingkartinok.com/uploads/images/2024/11/5642b4c55e7d1c0f420a0443a44404bf.png" alt="Brand Item 1" class="clickable-image">
+                <div class="actions">
+                    <div class="like-btn">
+                        <img src="https://s1.hostingkartinok.com/uploads/images/2024/11/af9c2844022b8294bae73b40839ff811.png" alt="Like Icon" class="like-icon" id="like-icon">
+                        <span id="participant-count">89</span>
+                        <span class="tooltip">Active Participants</span> <!-- Tooltip element -->
+                    </div>
+                    <button class="bid-btn" id="bid-now-btn">Bid Now</button>
+                </div>
+                <div class="time-info">
+                    <img src="https://s1.hostingkartinok.com/uploads/images/2024/11/c79d296c4aa70d1a73dafb0fd834adf1.png" alt="Clock Icon" class="clock-icon">
+                    <span id="time-left">00:45:23</span>
+                </div>
+                <div class="bid-info">
+                    <p>Current Bid: <span id="current-bid">€15</span></p>
+                </div>
             </div>
+
+            <div class="description" id="item-description">
+                <p>VETEMENTS</p>
+                <p>Doodle-print bomber jacket</p>
+                <p>Market Price: $2900</p>
+            </div>
+
+            <!-- Button to navigate to the next lot -->
+            <button class="next-lot-btn" id="next-lot-btn">Next Lot</button>
         </div>
 
-        <div class="item-card">
-            <img src="shoes.jpg" alt="YSL Shoes" class="item-image">
-            <div class="item-details">
-                <h2>YSL Shoes</h2>
-                <p>Current Bid: <span class="current-bid">€15</span></p>
-                <p>Time Left: <span class="time-left">03:15</span></p>
-                <button class="bid-button">Place Bid</button>
+        <!-- Item Screen (Bid Screen) -->
+        <div class="item-screen" id="item-screen" style="display: none;">
+            <div class="brand-item" id="brand-item-bid">
+                <img id="alt-item-image" src="" alt="Alternative Item" class="clickable-image">
+                <div class="actions">
+                    <div class="like-btn">
+                        <img src="https://s1.hostingkartinok.com/uploads/images/2024/11/af9c2844022b8294bae73b40839ff811.png" alt="Like Icon" class="like-icon" id="like-icon-bid">
+                        <span id="participant-count-bid">89</span>
+                        <span class="tooltip">Active Participants</span> <!-- Tooltip element -->
+                    </div>
+                    <button class="bid-btn" id="place-bid-btn">Place Bid</button>
+                </div>
+                <div class="time-info">
+                    <img src="https://s1.hostingkartinok.com/uploads/images/2024/11/c79d296c4aa70d1a73dafb0fd834adf1.png" alt="Clock Icon" class="clock-icon">
+                    <span id="time-left-bid">00:45:23</span>
+                </div>
+                <div class="bid-info">
+                    <p>Current Bid: <span id="current-bid-bid">€15</span></p>
+                </div>
+
+                <!-- Progress Bar for Coins (Visible only on Item Screen) -->
+                <div class="stake-bar-container">
+                    <input type="range" id="stake-range" min="1" max="100" value="10" class="stake-bar">
+                    <span id="stake-amount">10 Coins</span> <!-- Display selected stake amount -->
+                </div>
             </div>
+
+            <button class="back-btn" id="back-btn">Back to Auction</button>
         </div>
+    </div>
 
-        <!-- More items go here -->
-    </section>
+    <script>
+        const auctionItems = [
+            {
+                images: [
+                    "https://s1.hostingkartinok.com/uploads/images/2024/11/5642b4c55e7d1c0f420a0443a44404bf.png",
+                    "https://s1.hostingkartinok.com/uploads/images/2024/11/a347e3d1dedebed36c535c577184026a.png" // Add second image URL here
+                ],
+                likes: 89,
+                timeLeft: 2700, // Time in seconds (45 minutes)
+                currentBid: "€15",
+                description: "VETEMENTS\nDoodle-print bomber jacket\nMarket Price: $2900"
+            },
+            {
+                images: [
+                    "https://s1.hostingkartinok.com/uploads/images/2024/11/fda5863c4bbec35d649f76b4773832a1.png", // Replace with actual URL for next item
+                    "https://s1.hostingkartinok.com/uploads/images/2024/11/894864147b3d9b349e9f6656012e1793.png" // Replace with actual URL for next item
+                ],
+                likes: 120,
+                timeLeft: 1845, // Time in seconds (30 minutes and 45 seconds)
+                currentBid: "€250",
+                description: "GUCCI\nStylish Leather Sneakers\nMarket Price: $850"
+            },
+            {
+                images: [
+                    "https://s1.hostingkartinok.com/uploads/images/2024/11/efd3d02348e618abff28e1a9eec6d86b.png", // Replace with actual URL for next item
+                    "https://s1.hostingkartinok.com/uploads/images/2024/11/7b12f429bae8c517a0df520799673b18.png" // Replace with actual URL for next item
+                ],
+                likes: 75,
+                timeLeft: 4510, // Time in seconds (1 hour and 15 minutes)
+                currentBid: "€500",
+                description: "VALENTINO\nElegant Evening Dress\nMarket Price: $1200"
+            }
+        ];
 
-    <footer class="footer">
-        <p>Swipe through items and place your bids for a chance to win!</p>
-    </footer>
+        let currentIndex = 0;
+        let imageIndex = 0;
+
+        function updateItem() {
+            const item = auctionItems[currentIndex];
+            document.getElementById('item-image').src = item.images[imageIndex];
+            document.getElementById('participant-count').innerText = item.likes;
+            document.getElementById('time-left').innerText = formatTime(item.timeLeft);
+            document.getElementById('current-bid').innerText = item.currentBid;
+            document.getElementById('item-description').innerHTML = item.description.replace(/\n/g, '<br>'); // New line handling
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        document.getElementById('next-lot-btn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % auctionItems.length; // Loop through items
+            imageIndex = 0; // Reset to first image
+            updateItem();
+        });
+
+        // Image click functionality
+        document.querySelector('.clickable-image').addEventListener('click', () => {
+            const item = auctionItems[currentIndex];
+            imageIndex = 0; // Set to the first image when clicked
+            // Show the item screen with the same item
+            document.getElementById('alt-item-image').src = item.images[0]; // Show the first image
+            document.getElementById('time-left-bid').innerText = formatTime(item.timeLeft);
+            document.getElementById('current-bid-bid').innerText = item.currentBid;
+            document.getElementById('item-screen').style.display = 'block'; // Show the item screen
+            document.getElementById('main-screen').style.display = 'none'; // Hide the main screen
+        });
+
+        // Bid Now button click functionality
+        document.getElementById('bid-now-btn').addEventListener('click', () => {
+            const item = auctionItems[currentIndex];
+            document.getElementById('alt-item-image').src = item.images[1]; // Show second image
+            document.getElementById('item-screen').style.display = 'block'; // Show the item screen
+            document.getElementById('stake-range').value = 10; // Reset stake range to default
+            document.getElementById('stake-amount').innerText = "10 Coins"; // Update displayed stake amount
+            // Update bid information for the item screen
+            document.getElementById('current-bid-bid').innerText = item.currentBid;
+            document.getElementById('time-left-bid').innerText = formatTime(item.timeLeft);
+            // Hide the main screen
+            document.getElementById('main-screen').style.display = 'none';
+        });
+
+        // Stake bar functionality
+        const stakeRange = document.getElementById('stake-range');
+        const stakeAmount = document.getElementById('stake-amount');
+
+        stakeRange.addEventListener('input', () => {
+            stakeAmount.innerText = stakeRange.value + " Coins"; // Update stake amount display
+        });
+
+        // Back button functionality
+        document.getElementById('back-btn').addEventListener('click', () => {
+            document.getElementById('item-screen').style.display = 'none'; // Hide item screen
+            document.getElementById('main-screen').style.display = 'block'; // Show main screen
+            updateItem(); // Reset to the current item on main screen
+        });
+
+        // Tooltip functionality
+        const likeIcon = document.getElementById('like-icon');
+        const tooltip = document.querySelector('.tooltip');
+        let tooltipTimeout;
+
+        likeIcon.addEventListener('mouseenter', () => {
+            tooltipTimeout = setTimeout(() => {
+                tooltip.style.visibility = 'visible';
+                tooltip.style.opacity = '1';
+            }, 1000); // Show tooltip after 1 second
+        });
+
+        likeIcon.addEventListener('mouseleave', () => {
+            clearTimeout(tooltipTimeout);
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.opacity = '0';
+        });
+
+        // Initial item display
+        updateItem();
+    </script>
 </body>
 </html>
