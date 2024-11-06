@@ -1,88 +1,205 @@
-/* chance-visual.css */
-
+/* Reset and basic styling */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f8;
-    color: #333;
+body, html {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a; /* Black background */
+  font-family: 'Open Sans', sans-serif; /* Use Open Sans font */
+  color: #fff;
+  overflow: hidden;
 }
 
-.header {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: #fff;
+/* Container for the auction layout */
+.auction-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.header h1 {
-    font-size: 2rem;
+/* Central brand item styling */
+.brand-item {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  align-items: center; /* Center align items */
 }
 
-.feed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    gap: 20px;
+/* Brand item image styling */
+.brand-item img {
+  width: 100%; /* Ensure the image takes full width of the container */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
 }
 
-.item-card {
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.2s ease;
+/* Actions overlay on the brand item image */
+.actions {
+  position: absolute;
+  bottom: 20px; /* Keep it consistent across screens */
+  right: 10px; /* Positioning it closely to the right edge */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: flex-end; /* Align items to the right */
+  gap: 5px; /* Space between like button and bid button */
 }
 
-.item-card:hover {
-    transform: scale(1.03);
+/* Like button styling */
+.like-btn {
+  display: flex;
+  flex-direction: column; /* Stack icon above text */
+  align-items: center; /* Center align items */
+  cursor: pointer;
+  position: relative; /* For tooltip positioning */
 }
 
-.item-image {
-    width: 100%;
-    height: auto;
+.like-icon {
+  width: 15px; /* Size of the like icon */
+  height: 15px; /* Size of the like icon */
 }
 
-.item-details {
-    padding: 15px;
+/* Tooltip styling */
+.tooltip {
+  visibility: hidden; /* Hide the tooltip by default */
+  background-color: rgba(0, 0, 0, 0.7); /* Dark background for the tooltip */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 5px; /* Rounded corners */
+  padding: 5px; /* Some padding */
+  position: absolute; /* Absolute positioning */
+  z-index: 1; /* Ensure tooltip is above other elements */
+  bottom: 30px; /* Position above the icon */
+  left: 50%; /* Center the tooltip */
+  transform: translateX(-50%); /* Adjust to center */
+  transition: visibility 0s, opacity 0.3s ease; /* Fade effect */
+  opacity: 0; /* Initially transparent */
 }
 
-.item-details h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
+.like-btn:hover .tooltip {
+  visibility: visible; /* Show tooltip on hover */
+  opacity: 1; /* Fully visible */
+  font-size: 1.1rem; /* Increased font size for tooltip */
 }
 
-.current-bid, .time-left {
-    font-weight: bold;
+/* Bid button with futuristic neon effect */
+.bid-btn {
+  padding: 10px 20px;
+  background-color: #1d1d1d; /* Dark background for the button */
+  border: none;
+  border-radius: 20px; /* Match the rounded corners */
+  color: #00ff00; /* Neon green color for text */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.6), 0 0 20px rgba(0, 255, 0, 0.5); /* Neon glow effect */
 }
 
-.bid-button {
-    background-color: #007aff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+.bid-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.7); /* Increased glow on hover */
 }
 
-.bid-button:hover {
-    background-color: #005bb5;
+.bid-btn:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px; /* Rounded corners */
+  background: rgba(0, 255, 0, 0.1); /* Semi-transparent neon green overlay */
+  transition: transform 0.3s;
+  z-index: 0; /* Behind the text */
 }
 
-.footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
+.bid-btn:hover:after {
+  transform: scale(1.1); /* Slight scale on hover for the overlay */
+  opacity: 0.5; /* Make the overlay more visible */
+}
+
+/* Time info positioning */
+.time-info {
+  position: absolute;
+  top: 10px; /* Positioning at the top left corner of the image */
+  left: 10px; /* Slight padding from left */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clock-icon {
+  width: 15px; /* Size of the clock icon */
+  height: 15px; /* Size of the clock icon */
+}
+
+/* Current Bid positioned close to bottom left of the image */
+.bid-info {
+  position: absolute;
+  bottom: 5px; /* Positioning close to bottom edge of the image */
+  left: 10px;  /* Slight padding from left */
+}
+
+/* Description styling */
+.description {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.9rem; /* Decreased font size by 1 */
+}
+
+/* Next Lot Button Styling */
+.next-lot-btn {
+  padding: 10px 20px; /* Same padding as the Bid Now button */
+  background-color: rgba(255, 0, 250, 0.1); /* Light transparent purple background */
+  border: none;
+  border-radius: 20px; /* Match the rounded corners */
+  color: #FF00FA; /* Neon purple text color */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px; /* Space above the button */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
+  box-shadow: 0 0 10px rgba(255, 0, 250, 0.6), 0 0 20px rgba(255, 0, 250, 0.5); /* Purple glow effect */
+}
+
+/* Hover effect for the button */
+.next-lot-btn:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 0 20px rgba(255, 0, 250, 0.8), 0 0 30px rgba(255, 0, 250, 0.7); /* Increased glow on hover */
+}
+
+/* Active state effect */
+.next-lot-btn:active {
+  transform: translateY(1px); /* Button press effect */
+  box-shadow: 0 4px 10px rgba(255, 0, 250, 0.5); /* Slightly reduced shadow on active */
+}
+
+/* Stake bar container */
+.stake-bar-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Space above the stake bar */
+  justify-content: center; /* Center the progress bar */
+}
+
+/* Stake bar styling */
+.stake-bar {
+  width: 100%; /* Full width */
+  cursor: pointer; /* Indicate that this is interactive */
 }
